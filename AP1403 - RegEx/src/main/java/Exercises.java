@@ -64,9 +64,24 @@ public class Exercises {
         - at least one number and at least a special char "!@#$%^&*"
         - has no white-space in it
      */
+
     public int findValidPasswords(String string) {
-        // todo
-        return -1;
+        if(string == null || string.isEmpty()){ return 0;}
+
+        String[] words = string.split("\\s+");
+
+        int validPass = 0;
+
+        Pattern pattern = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$");
+
+        for(String word : words){
+            if (pattern.matcher(word).matches()){
+                validPass++;
+            }
+        }
+
+        return validPass;
+
     }
 
     /*
@@ -77,11 +92,39 @@ public class Exercises {
      */
     public List<String> findPalindromes(String string) {
         List<String> list = new ArrayList<>();
-        // todo
+        if(string == null || string.isEmpty()){
+            return  list;
+        }
+        String [] words = string.split("\\s+");
+
+
+        for(String word : words){
+            // Remove all non-alphabetic characters forexample turn  madam, to madam
+            String cleanWord = word.replaceAll("[^a-zA-Z]", "");
+            if(cleanWord.length() >= 3){
+                String lowerWord = cleanWord.toLowerCase();
+                if(isPalindrome(lowerWord)){
+                    list.add(cleanWord); // Add the cleaned word (without punctuation)
+                }
+            }
+        }
         return list;
+    }
+    private boolean isPalindrome(String string){
+        int right = string.length() - 1;
+        int left = 0;
+        while(left < right){
+            if(string.charAt(left) != string.charAt(right)){
+                return false;
+
+            }
+            left++;
+            right--;
+        }
+        return true;
     }
 
     public static void main(String[] args) {
-        // you can test your code here
+
     }
 }
